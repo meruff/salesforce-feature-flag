@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Values_to_Skip__c</fullName>
+    <description>A semi-colon delimited list of values to skip for a given feature flag. For example, if we want to skip this feature for specified accounts, you can add them here and the feature will work for others but not for the accounts listed. i.e. Account 1;Account 2; etc. It is up to the developer to configure the values in this list and pass the value to the feature flag class for comparison.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Values to Skip</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

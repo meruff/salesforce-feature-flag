@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Start_Date__c</fullName>
+    <description>A date representing the &quot;start&quot; date of the feature. It is up to the developer to determine what date to check against (a record&apos;s created date, today&apos;s date, etc.).</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Start Date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>
