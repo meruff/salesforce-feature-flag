@@ -6,6 +6,7 @@
  * @date 2/2/23
  */
 public without sharing class FeatureFlag {
+    @TestVisible
     private static final Map<String, Feature_Flag__mdt> featureFlagConfigMap {
         get {
             if (featureFlagConfigMap == null) {
@@ -20,21 +21,6 @@ public without sharing class FeatureFlag {
                     FROM Feature_Flag__mdt
                 ]) {
                     featureFlagConfigMap.put(featureFlag.DeveloperName, featureFlag);
-                }
-
-                // Add some test records to ensure flags exist while in text context.
-                if (Test.isRunningTest()) {
-                    featureFlagConfigMap.put('Test_Feature', new Feature_Flag__mdt(
-                        DeveloperName = 'Test_Feature',
-                        Is_Active__c = true,
-                        Start_Date__c = Date.today(),
-                        Values_to_Skip__c = 'Test Value 1;Test Value 2'
-                    ));
-
-                    featureFlagConfigMap.put('Test_Feature_Off', new Feature_Flag__mdt(
-                        DeveloperName = 'Test_Feature_Off',
-                        Is_Active__c = false
-                    ));
                 }
             }
 
