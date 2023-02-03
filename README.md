@@ -5,12 +5,12 @@ One way to implement feature flagging in your Salesforce org.
 ## In LWC
 
 ```javascript
-import { isOn } from "c/featureFlagUtils";
+import { isFeatureOn } from "c/featureFlagUtils";
 
 isFeatureOn;
 
 connectedCallback() {
-    isOn("My_Feature_Flag")
+    isFeatureOn("My_Feature_Flag")
         .then((result) => {
             this.isFeatureOn = result;
         })
