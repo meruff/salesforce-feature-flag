@@ -48,7 +48,7 @@ const isFeatureOnForDate = async (key, date) => {
  * is turned on.
  */
 const isFeatureOnForValue = async (key, value) => {
-  return isOnForDate({ featureKey: key, valueToCheck: value })
+  return isOnForValue({ featureKey: key, valueToCheck: value })
     .then((result) => {
       return result ?? true;
     })
