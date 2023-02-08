@@ -40,6 +40,10 @@ public without sharing class FeatureFlag {
      */
     @AuraEnabled(Cacheable=true)
     public static Boolean isOn(String featureKey) {
+        if (String.isBlank(featureKey)) {
+            return true;
+        }
+
         Feature_Flag__mdt featureFlag = featureFlagConfigMap.get(featureKey);
 
         return featureFlag != null
@@ -60,11 +64,17 @@ public without sharing class FeatureFlag {
      */
     @AuraEnabled(Cacheable=true)
     public static Boolean isOnForDate(String featureKey, Date dateToCheck) {
+        if (!isOn(featureKey)) {
+            return false;
+        }
+
         Feature_Flag__mdt featureFlag = featureFlagConfigMap.get(featureKey);
 
-        return featureFlag != null
-            ? featureFlag.Is_Active__c && dateToCheck >= featureFlag.Start_Date__c
-            : true;
+        if (featureFlag != null && dateToCheck != null) {
+            return dateToCheck >= featureFlag.Start_Date__c;
+        }
+
+        return true;
     }
 
     /**
@@ -80,10 +90,16 @@ public without sharing class FeatureFlag {
      */
     @AuraEnabled(Cacheable=true)
     public static Boolean isOnForValue(String featureKey, String valueToCheck) {
+        if (!isOn(featureKey)) {
+            return false;
+        }
+
         Feature_Flag__mdt featureFlag = featureFlagConfigMap.get(featureKey);
 
-        return featureFlag != null
-            ? featureFlag.Is_Active__c && !featureFlag.Values_to_Skip__c.split(';').contains(valueToCheck)
-            : true;
+        if (featureFlag != null && String.isNotBlank(featureFlag.Values_to_Skip__c)) {
+            return !featureFlag.Values_to_Skip__c.split(';').contains(valueToCheck);
+        }
+
+        return true;
     }
 }

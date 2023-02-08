@@ -1,8 +1,8 @@
 /**
  * @description Apex unit tests for FeatureFlag.cls
- *
+ * 
  * @author meruff
- *
+ * 
  * @date 2/2/23
  */
 @IsTest
@@ -98,6 +98,51 @@ private class FeatureFlagTest {
     }
 
     /**
+     * @description This tests that the test feature is on by default for a flag that doesn't exist with no value.
+     */
+    @IsTest
+    static void testDefaultOnForNonExistentFlagWithNoValue() {
+        populateFeatureFlagMap();
+
+        Test.startTest();
+        Assert.isTrue(
+            FeatureFlag.isOnForValue('Flag_That_Does_Not_Exist', null),
+            'isOn should default to true if the flag does not exist with null value.'
+        );
+        Test.stopTest();
+    }
+
+    /**
+     * @description This tests that the test feature is on by default for a flag that doesn't exist with no value.
+     */
+    @IsTest
+    static void testDefaultOnForValueAllNull() {
+        populateFeatureFlagMap();
+
+        Test.startTest();
+        Assert.isTrue(
+            FeatureFlag.isOnForValue(null, null),
+            'isOn should default to true if the flag and value are null.'
+        );
+        Test.stopTest();
+    }
+
+    /**
+     * @description This tests that the test feature is on by default for a flag that doesn't exist with no date.
+     */
+    @IsTest
+    static void testDefaultOnForNonExistentFlagWithNoDate() {
+        populateFeatureFlagMap();
+
+        Test.startTest();
+        Assert.isTrue(
+            FeatureFlag.isOnForDate('Flag_That_Does_Not_Exist', null),
+            'isOn should default to true if the flag does not exist with null date.'
+        );
+        Test.stopTest();
+    }
+
+    /**
      * @description This tests that the test feature is on by default for a flag that doesn't exist with a null date.
      */
     @IsTest
@@ -105,9 +150,9 @@ private class FeatureFlagTest {
         populateFeatureFlagMap();
 
         Test.startTest();
-        Assert.isFalse(
+        Assert.isTrue(
             FeatureFlag.isOnForDate('Test_Feature', null),
-            'isOn should return false if the date is passed as null.'
+            'isOn should return true if the date is passed as null.'
         );
         Test.stopTest();
     }
@@ -123,6 +168,21 @@ private class FeatureFlagTest {
         Assert.isTrue(
             FeatureFlag.isOnForValue('Test_Feature', null),
             'isOn should default to true if the value is passed as null.'
+        );
+        Test.stopTest();
+    }
+
+    /**
+     * @description This tests that the test feature is on by default for a flag that doesn't have any skip values.
+     */
+    @IsTest
+    static void testDefaultOnForFeatureNoValues() {
+        populateFeatureFlagMap();
+
+        Test.startTest();
+        Assert.isTrue(
+            FeatureFlag.isOnForValue('Test_Feature_No_Values', 'Something'),
+            'isOn should default to true if the flag has no skip values.'
         );
         Test.stopTest();
     }
@@ -179,6 +239,11 @@ private class FeatureFlagTest {
             Is_Active__c = true,
             Start_Date__c = Date.today(),
             Values_to_Skip__c = 'Test Value 1;Test Value 2'
+        ));
+
+        FeatureFlag.featureFlagConfigMap.put('Test_Feature_No_Values', new Feature_Flag__mdt(
+            DeveloperName = 'Test_Feature_No_Values',
+            Is_Active__c = true
         ));
 
         FeatureFlag.featureFlagConfigMap.put('Test_Feature_Off', new Feature_Flag__mdt(
