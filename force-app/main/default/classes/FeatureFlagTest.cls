@@ -143,6 +143,21 @@ private class FeatureFlagTest {
     }
 
     /**
+     * @description This tests that the test feature is on by default for a flag that doesn't exist with no date.
+     */
+    @IsTest
+    static void testDefaultOnForNonExistentFlagWithNoDate() {
+        populateFeatureFlagMap();
+
+        Test.startTest();
+        Assert.isTrue(
+            FeatureFlag.isOnForDate('Flag_That_Does_Not_Exist', null),
+            'isOn should default to true if the flag does not exist with null date.'
+        );
+        Test.stopTest();
+    }
+
+    /**
      * @description This tests that the test feature is on by default for a flag that doesn't exist with a null date.
      */
     @IsTest

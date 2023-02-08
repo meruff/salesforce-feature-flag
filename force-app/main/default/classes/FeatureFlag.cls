@@ -70,7 +70,10 @@ public without sharing class FeatureFlag {
 
         Feature_Flag__mdt featureFlag = featureFlagConfigMap.get(featureKey);
 
-        if (featureFlag != null && dateToCheck != null) {
+        if (featureFlag != null
+            && featureFlag.Start_Date__c != null
+            && dateToCheck != null
+        ) {
             return dateToCheck >= featureFlag.Start_Date__c;
         }
 
