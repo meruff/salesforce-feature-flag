@@ -1,8 +1,8 @@
 /**
  * @description Apex unit tests for FeatureFlag.cls
- * 
- * @author meruff
- * 
+ *
+ * @author Mat Ruff | mat.ruff@builtin.com
+ *
  * @date 2/2/23
  */
 @IsTest
@@ -143,21 +143,6 @@ private class FeatureFlagTest {
     }
 
     /**
-     * @description This tests that the test feature is on by default for a flag that doesn't exist with no date.
-     */
-    @IsTest
-    static void testDefaultOnForNonExistentFlagWithNoDate() {
-        populateFeatureFlagMap();
-
-        Test.startTest();
-        Assert.isTrue(
-            FeatureFlag.isOnForDate('Flag_That_Does_Not_Exist', null),
-            'isOn should default to true if the flag does not exist with null date.'
-        );
-        Test.stopTest();
-    }
-
-    /**
      * @description This tests that the test feature is on by default for a flag that doesn't exist with a null date.
      */
     @IsTest
@@ -198,6 +183,21 @@ private class FeatureFlagTest {
         Assert.isTrue(
             FeatureFlag.isOnForValue('Test_Feature_No_Values', 'Something'),
             'isOn should default to true if the flag has no skip values.'
+        );
+        Test.stopTest();
+    }
+
+    /**
+     * @description This tests that the test feature is on by default for a flag that doesn't have any start date.
+     */
+    @IsTest
+    static void testDefaultOnForFeatureNoStartDate() {
+        populateFeatureFlagMap();
+
+        Test.startTest();
+        Assert.isTrue(
+            FeatureFlag.isOnForDate('Test_Feature_No_Values', Date.today()),
+            'isOn should default to true if the flag has no start date.'
         );
         Test.stopTest();
     }
@@ -248,6 +248,37 @@ private class FeatureFlagTest {
         Test.stopTest();
     }
 
+    /**
+     * @description This tests that the test feature is on for a given key and value using the Values_to_Allow__c field.
+     */
+    @IsTest
+    static void testIsOnForValueAllow() {
+        populateFeatureFlagMap();
+
+        Test.startTest();
+        Assert.isTrue(
+            FeatureFlag.isOnForValue('Test_Value_Allow', 'Test Value Allow'),
+            'Test_Value_Allow should be on for \'Test Value Allow\'.'
+        );
+        Test.stopTest();
+    }
+
+    /**
+     * @description This tests that the test feature is off for a given key and value using the Values_to_Allow__c field
+     * but overriding to off using the Values_to_Skip__c field.
+     */
+    @IsTest
+    static void testIsOffForValueAllowWithSkipOverride() {
+        populateFeatureFlagMap();
+
+        Test.startTest();
+        Assert.isFalse(
+            FeatureFlag.isOnForValue('Test_Value_Allow', 'Test Value Allow 2'),
+            'Test_Value_Allow should be off for \'Test Value Allow 2\' because it is also referenced in values to skip.'
+        );
+        Test.stopTest();
+    }
+
     private static void populateFeatureFlagMap() {
         FeatureFlag.featureFlagConfigMap.put('Test_Feature', new Feature_Flag__mdt(
             DeveloperName = 'Test_Feature',
@@ -264,6 +295,13 @@ private class FeatureFlagTest {
         FeatureFlag.featureFlagConfigMap.put('Test_Feature_Off', new Feature_Flag__mdt(
             DeveloperName = 'Test_Feature_Off',
             Is_Active__c = false
+        ));
+
+        FeatureFlag.featureFlagConfigMap.put('Test_Value_Allow', new Feature_Flag__mdt(
+            DeveloperName = 'Test_Value_Allow',
+            Is_Active__c = true,
+            Values_to_Allow__c = 'Test Value Allow;Test Value Allow 2',
+            Values_to_Skip__c = 'Test Value Allow 2'
         ));
     }
 }

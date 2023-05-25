@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Values_to_Allow__c</fullName>
+    <description>A semi-colon delimited list of values to allow. ex: email, Account name, etc. If there is a value in this field, the feature will ONLY be on for these given values.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>A semi-colon delimited list of values to allow. ex: email, Account name, etc. If there is a value in this field, the feature will ONLY be on for these given values.</inlineHelpText>
+    <label>Values to Allow</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

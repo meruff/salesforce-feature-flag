@@ -1,8 +1,8 @@
 /**
  * @description A class to interface with Feature_Flag__mdt and check if certain features are enabled. 
- * 
- * @author meruff
- * 
+ *
+ * @author Mat Ruff | mat.ruff@builtin.com
+ *
  * @date 2/2/23
  */
 public without sharing class FeatureFlag {
@@ -17,6 +17,7 @@ public without sharing class FeatureFlag {
                         DeveloperName,
                         Is_Active__c,
                         Start_Date__c,
+                        Values_to_Allow__c,
                         Values_to_Skip__c
                     FROM Feature_Flag__mdt
                 ]) {
@@ -99,10 +100,20 @@ public without sharing class FeatureFlag {
 
         Feature_Flag__mdt featureFlag = featureFlagConfigMap.get(featureKey);
 
-        if (featureFlag != null && String.isNotBlank(featureFlag.Values_to_Skip__c)) {
-            return !featureFlag.Values_to_Skip__c.split(';').contains(valueToCheck);
+        if (featureFlag == null) {
+            return true;
         }
 
-        return true;
+        Boolean isOn = true;
+
+        if (String.isNotBlank(featureFlag.Values_to_Allow__c)) {
+            isOn = featureFlag.Values_to_Allow__c.split(';').contains(valueToCheck);
+        }
+
+        if (String.isNotBlank(featureFlag.Values_to_Skip__c)) {
+            isOn = !featureFlag.Values_to_Skip__c.split(';').contains(valueToCheck);
+        }
+
+        return isOn;
     }
 }
