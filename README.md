@@ -46,6 +46,14 @@ You can also pass a value to see if that feature is turned on for that value. Yo
 FeatureFlag.isOnForValue("My_Feature_Flag", "My Account Name");
 ```
 
+### Skip / Allow Values
+
+Using the `Values_to_Skip__c` field, you can specify specific values that do not get access to the feature. All other values not defined in this field will have access.
+
+Using the `Values_to_Allow__c` field, you can specify flag access to specific values. All other values not defined in this field will _not_ have access.
+
+> Currently this is built to only allow use of one of the two fields described above.
+
 ## Default Values
 
 * If a feature flag does not exist for a given key, the default value returned is `true` meaning the feature is "on".

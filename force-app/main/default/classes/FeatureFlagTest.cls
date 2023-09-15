@@ -1,7 +1,7 @@
 /**
  * @description Apex unit tests for FeatureFlag.cls
  *
- * @author Mat Ruff | mat.ruff@builtin.com
+ * @author meruff
  *
  * @date 2/2/23
  */

@@ -1,7 +1,7 @@
 /**
  * @description A class to interface with Feature_Flag__mdt and check if certain features are enabled. 
  *
- * @author Mat Ruff | mat.ruff@builtin.com
+ * @author meruff
  *
  * @date 2/2/23
  */
