@@ -2,6 +2,19 @@
 
 One way to implement feature flagging in your Salesforce org.
 
+## Custom Metadata
+
+Uses a custom metadata type named `Feature_Flag__mdt` for configuration.
+
+| Field API Name       | Field Type | Description                                                                                                                                                                                                                                                                                                                                                                                                                            |
+|----------------------|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Feature_Flag_Name__c | Text       | The unique API name of the flag, used in code to figure out                                                                                                                                                                                                                                                                                                                                                                            |
+| Is_Active__c         | Checkbox   | Whether or not the flag is turned on, this overrides any other field values below.                                                                                                                                                                                                                                                                                                                                                     |
+| Start_Date__c        | Text       | A date representing the "start" date of the feature. It is up to the developer to determine what date to check against (a record's created date, today's date, etc.).                                                                                                                                                                                                                                                                  |
+| Values_to_Skip__c    | Long Text  | A semi-colon delimited list of values to skip for a given feature flag. For example, if we want to skip this feature for specified accounts, you can add them here and the feature will work for others but not for the accounts listed. i.e. Account 1;Account 2; etc. It is up to the developer to configure the values in this list and pass the value to the feature flag class for comparison. This overrides Values_to_Allow__c. |
+| Values_to_Allow__c   | Text       | A semi-colon delimited list of values to allow. ex: email, Account name, etc. If there is a value in this field, the feature will ONLY be on for these given values.                                                                                                                                                                                                                                                                   |
+# Uses
+
 ## In LWC
 
 ```javascript
@@ -54,7 +67,7 @@ Using the `Values_to_Allow__c` field, you can specify flag access to specific va
 
 > Currently this is built to only allow use of one of the two fields described above.
 
-## Default Values
+# Default Values
 
 * If a feature flag does not exist for a given key, the default value returned is `true` meaning the feature is "on".
 * If you pass a null date to `isOnForDate`, the default value returned is `false` and the feature is considered "off".
